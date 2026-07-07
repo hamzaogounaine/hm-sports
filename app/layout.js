@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Naviagation";
 import Script from "next/script";
-
+import { Analytics } from "@vercel/analytics/next"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
         {/* <Script src="https://pl30246646.effectivecpmnetwork.com/58/ea/6f/58ea6f4451908c3bf28ca3bc074877a4.js" /> */}
 
       </header>
+      <Analytics />
       <Navbar />
       <body className="min-h-full flex flex-col container mx-auto max-w-screen-2xl  text-gray-900 selection:bg-blue-500 selection:text-white">{children}</body>
     </html>
