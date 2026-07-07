@@ -54,6 +54,17 @@ export async function GET(req) {
             }),
             getChannelMap() // Fetches the gist list exactly ONCE per client call
         ]);
+        console.log("Fetched channel mapping data:", {
+                    "type": "page",
+                    "page": 1,
+                    "pageLimit": 30,
+                    "desiredLanguage": "ar-mena",
+                    "timezone": clientTimezone,
+                    "eventDate": todayInClientZone,
+                    "eventTime": timeInClientZone,
+                    "sport": "soccer_data",
+                    "comp_id": compId
+                });
 
         if (apiResult.status !== 200) {
             return NextResponse.json({ message: "Failed to fetch today's matches" }, { status: apiResult.status });
