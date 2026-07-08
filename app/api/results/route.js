@@ -22,14 +22,13 @@ export async function GET(req) {
         // Use the date two days before in the client's timezone
         const twoDaysAgo = new Date();
         twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-        // const todayInClientZone = new Intl.DateTimeFormat('en-CA', {
-        //     timeZone: clientTimezone,
-        //     year: 'numeric',
-        //     month: '2-digit',
-        //     day: '2-digit',
-        // }).format(twoDaysAgo);
+        const todayInClientZone = new Intl.DateTimeFormat('en-CA', {
+            timeZone: clientTimezone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        }).format(twoDaysAgo);
 
-        const todayInClientZone = '2026-06-29'
 
         // const timeInClientZone = new Date().toLocaleTimeString('en-CA', {
         //     timeZone: clientTimezone, 
