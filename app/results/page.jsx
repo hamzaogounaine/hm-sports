@@ -1,11 +1,23 @@
+"use client"
 import axios from "axios";
 import MatchResultCard from "@/components/matchResultCard";
+import { useEffect, useState } from "react";
 
-const page = async () => {
-  const { data } = await axios.get(
-    "/api/results?tz=Africa/Casablanca&compId="
-  );
+const Page = () => {
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const { data } = await axios.get(`/api/results?tz=${userTimezone}&compId`);
+        setData(data);
+      } catch (error) {
+        console.error("Error fetching results:", error);
+      }
 
+    };
+    fetchResults();
+  }, [userTimezone]);
   return (
     <div>
       <div className="mb-8">
@@ -40,4 +52,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;
