@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased `}
+      dir="rtl"
     >
       <header>
         {/* <Script src="https://pl30246646.effectivecpmnetwork.com/58/ea/6f/58ea6f4451908c3bf28ca3bc074877a4.js" /> */}
@@ -30,7 +31,11 @@ export default function RootLayout({ children }) {
       </header>
       <Analytics />
       <Navbar />
-      <body className="min-h-full flex flex-col container mx-auto max-w-screen-2xl  text-gray-900 selection:bg-blue-500 selection:text-white">{children}</body>
+      <body className="min-h-full text-gray-900 selection:bg-blue-500 selection:text-white">
+        <div dir="rtl" className="min-h-screen text-gray-800 p-4 md:p-8 font-sans max-w-4xl mx-auto">
+          {children}
+          </div>
+          </body>
     </html>
   );
 }

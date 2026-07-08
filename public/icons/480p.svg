@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" width="100%" height="100%">
+  <!-- Outer black container with rounded corners -->
+  <rect x="20" y="20" width="360" height="320" rx="45" ry="45" fill="#050505" />
+  
+  <!-- Inner white display box -->
+  <rect x="42" y="42" width="316" height="200" rx="25" ry="25" fill="#ffffff" />
+  
+  <!-- "480P" Resolution Text -->
+  <text x="200" y="185" font-family="Impact, Arial Black, sans-serif" font-weight="900" font-size="115" fill="#050505" text-anchor="middle">480P</text>
+  
+  <!-- "SD" Standard Definition Text -->
+  <text x="200" y="302" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="52" fill="#ffffff" text-anchor="middle" letter-spacing="1">SD</text>
+</svg>

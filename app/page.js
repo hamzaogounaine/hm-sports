@@ -60,13 +60,13 @@ export default function FootballDashboard() {
   
 
   return (
-    <div dir="rtl" className="min-h-screen  text-gray-800 p-4 md:p-8 font-sans">
+    
       <div className="max-w-4xl mx-auto">
         
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">جدول المباريات الحية</h1>
-          <p className="text-gray-500 text-sm mt-1">تحديث مباشر من خادم المباريات الخاص بك.</p>
+          <h1 className="title">جدول المباريات الحية</h1>
+          <p className="subtitle">تحديث مباشر من خادم المباريات الخاص بك.</p>
         </div>
 
         {/* Navigation Tabs */}
@@ -98,7 +98,6 @@ export default function FootballDashboard() {
 
 
       </div>
-    </div>
   );
 }
 

@@ -54,17 +54,7 @@ export async function GET(req) {
             }),
             getChannelMap() // Fetches the gist list exactly ONCE per client call
         ]);
-        console.log("Fetched channel mapping data:", {
-                    "type": "page",
-                    "page": 1,
-                    "pageLimit": 30,
-                    "desiredLanguage": "ar-mena",
-                    "timezone": clientTimezone,
-                    "eventDate": todayInClientZone,
-                    "eventTime": timeInClientZone,
-                    "sport": "soccer_data",
-                    "comp_id": compId
-                });
+       
 
         if (apiResult.status !== 200) {
             return NextResponse.json({ message: "Failed to fetch today's matches" }, { status: apiResult.status });
@@ -95,9 +85,8 @@ export async function GET(req) {
             const homeIso = convertIocCode(el.homeTeamCode)?.iso2?.toLowerCase() || "un";
             const awayIso = convertIocCode(el.awayTeamCode)?.iso2?.toLowerCase() || "un";
 
-            // Instant, synchronous lookups from our pre-fetched mapping object
-            const targetChannel = channelMap[el.channelName] || null;
-
+            const targetChannel = channelMap[el.channelName]?.qualities || null;
+            const targetLogo = channelMap[el.channelName]?.assets?.logo_url || null;
             return {
                 eventTitle: el.eventTitle,
                 isLive: el.isLive,
@@ -113,7 +102,7 @@ export async function GET(req) {
                 watchSD: targetChannel?.sd || null,
                 watchHD: targetChannel?.hd || null,
                 watchFHD: targetChannel?.fhd || null,
-                logoUrl : targetChannel?.logo_url || null
+                logoUrl : targetLogo || null,
             };
         });
 

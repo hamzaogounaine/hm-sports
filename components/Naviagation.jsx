@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 export default function Navbar() {
@@ -27,8 +28,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    // 'dir="rtl"' automatically flips flex-row layout to start from the right
-    <nav dir="rtl" className=" flex flex-col md:flex-row justify-between items-center bg-white px-8 py-4    w-full gap-4 md:gap-0">
+    <div className="container mx-auto px-4">
+    <nav dir="rtl" className="container flex flex-col md:flex-row justify-between items-center bg-white  py-4  mx-auto w-full gap-4 md:gap-0">
       
       {/* 1. Right Side: Logo */}
       <div className="text-2xl font-bold text-gray-800 tracking-wide">
@@ -40,24 +41,20 @@ export default function Navbar() {
       {/* 2. Middle: Links */}
       <ul className="flex items-center gap-6 text-gray-600 font-medium">
         <li>
-          <a href="/" className="hover:text-blue-600 transition-colors duration-200">
+          <Link href="/" className="hover:text-blue-600 transition-colors duration-200">
             الرئيسية
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#" className="hover:text-blue-600 transition-colors duration-200">
-            من نحن
-          </a>
+          <Link href="/live" className="hover:text-blue-600 transition-colors duration-200">
+            البت المباشر
+          </Link>
         </li>
+        
         <li>
-          <a href="#" className="hover:text-blue-600 transition-colors duration-200">
-            الخدمات
-          </a>
-        </li>
-        <li>
-          <a href="#" className="hover:text-blue-600 transition-colors duration-200">
-            اتصل بنا
-          </a>
+          <Link href="/results" className="hover:text-blue-600 transition-colors duration-200">
+            النتائج
+          </Link>
         </li>
       </ul>
 
@@ -67,5 +64,6 @@ export default function Navbar() {
       </div>
       
     </nav>
+    </div>
   );
 }

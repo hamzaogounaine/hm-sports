@@ -136,5 +136,11 @@
   html {
     @apply font-sans;
   }
+  .title {
+    @apply text-2xl font-bold text-gray-900
+  }
+  .subtitle {
+    @apply text-gray-500 text-sm mt-1
+  }
 
 }
