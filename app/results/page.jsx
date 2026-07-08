@@ -3,7 +3,7 @@ import MatchResultCard from "@/components/matchResultCard";
 
 const page = async () => {
   const { data } = await axios.get(
-    "http://localhost:3000/api/results?tz=Africa/Casablanca&compId="
+    "/api/results?tz=Africa/Casablanca&compId="
   );
 
   return (
