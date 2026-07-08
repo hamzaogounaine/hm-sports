@@ -107,6 +107,7 @@ export async function GET(req) {
                 awayTeamName: el.awayTeamName,
                 round: el.round,
                 matchTime: el.matchTime,
+                matchDate : el.matchDate,
                 homeTeamFlag: `https://flagcdn.com/${homeIso}.svg`,
                 awayTeamFlag: `https://flagcdn.com/${awayIso}.svg`,
                 watchSD: targetChannel?.sd || null,
