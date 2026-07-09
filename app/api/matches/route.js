@@ -3,16 +3,26 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { getChannelMap } from "@/lib/channelId";
 import { convertIocCode } from "convert-country-codes"; // Cleared the CommonJS "require" mix-up
+import { redis } from "@/lib/redis";
 
 export async function GET(req) {
     try {
+        const { searchParams } = new URL(req.url);
+        const compId = searchParams.get('compId') || null;
+
+        const cacheKey = `all_matches:${compId}`
+
+        const cachedData = await redis.get(cacheKey);
+
+        if(cachedData) {
+            return NextResponse.json(JSON.parse(cachedData) );
+        }
+
         const headersList = await headers();
         const baseUrl = "https://prod-cmseventmanagement.beinsports.com/w2w/getWatch";
        
 
-        const { searchParams } = new URL(req.url);
         const clientQueryTimezone = searchParams.get('tz');
-        const compId = searchParams.get('compId') || null;
         
         const clientTimezone = 
             clientQueryTimezone || 
@@ -105,6 +115,8 @@ export async function GET(req) {
                 logoUrl : targetLogo || null,
             };
         });
+
+        await redis.set(cacheKey, JSON.stringify(cleanData), 'EX', 60 * 60 * 5); // Cache for 5 hours
 
         return NextResponse.json(cleanData);
 

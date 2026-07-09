@@ -35,7 +35,7 @@ export default function FootballDashboard() {
 
   // 1. Fetch data from your API
   useEffect(() => {
-    setAllMatches([]); // Clear previous matches when switching tabs
+    setAllMatches([]); 
     const fetchMatches = async () => {
       try {
         setIsLoading(true);

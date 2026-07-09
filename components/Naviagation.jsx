@@ -59,7 +59,7 @@ export default function Navbar() {
       </ul>
 
       {/* 3. Left Side: Local Time */}
-      <div className="bg-gray-50 text-gray-700 font-semibold px-4 py-2 rounded-full border border-gray-200 text-sm min-w-[110px] text-center shadow-inner select-none">
+      <div className="bg-gray-50  font-semibold px-4 py-2 rounded-md  text-sm min-w-[110px] text-center shadow-inner select-none">
         {time || '..:..:..'}
       </div>
       

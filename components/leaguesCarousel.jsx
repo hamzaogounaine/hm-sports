@@ -2,6 +2,10 @@ import { Card, CardContent } from "./ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
 
 export function LeagueTabsCarousel({ activeTab, setActiveTab, leagues }) {
+
+  if(!leagues || leagues.length === 0) {
+    return <LeagueCarousel />
+  }
   return (
     <div className="relative w-full w-full mx-auto px-12 mb-6">
       <Carousel
@@ -53,6 +57,43 @@ export function LeagueTabsCarousel({ activeTab, setActiveTab, leagues }) {
               </CarouselItem>
             );
           })}
+        </CarouselContent>
+        <CarouselNext className="-right-10" />
+        <CarouselPrevious className="-left-10" />
+      </Carousel>
+    </div>
+  )
+}
+
+const LeagueCarousel = () => {
+  return (
+    <div className="relative w-full w-full mx-auto px-12 mb-6">
+      <Carousel
+        opts={{
+          align: "start",
+          dragFree: true,
+          direction : "rtl"
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-2 md:-ml-4">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <CarouselItem
+              key={index}
+              className="pl-2 md:pl-4 basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/6 "
+            >
+              <div className="p-1 ">
+                <Card className="border-gray-300 bg-gray-200 hover:border-blue-500 transition-all duration-200 cursor-pointer animate-pulse">
+                  <CardContent className="flex flex-col items-center justify-center ">
+                    <div className="relative w-12 h-12 flex items-center justify-center ">
+                    </div>
+                    <span className="text-xs font-medium line-clamp-2 w-full text-gray-600">
+                    </span>
+                  </CardContent>  
+              </Card>
+              </div>
+            </CarouselItem>
+          ))}
         </CarouselContent>
         <CarouselNext className="-right-10" />
         <CarouselPrevious className="-left-10" />
