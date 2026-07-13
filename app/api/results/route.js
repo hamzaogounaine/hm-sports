@@ -8,27 +8,26 @@ import { redis } from "@/lib/redis";
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);
-        const compId = searchParams.get('compId') || null;
         const date = searchParams.get('day') || null;
         const cacheKey = `all_results_${date}`;
-        const cachedData = await redis.get(cacheKey);
 
-        if(cachedData) {
-            return NextResponse.json(JSON.parse(cachedData) );
+        const cachedData = await redis.get(cacheKey);
+        if (cachedData && JSON.parse(cachedData).length > 0) {
+            return NextResponse.json(JSON.parse(cachedData));
         }
 
 
         const headersList = await headers();
         const baseUrl = "https://prod-cmseventmanagement.beinsports.com/score/getScorePageList";
-       
+
 
         const clientQueryTimezone = searchParams.get('tz');
-        
-        const clientTimezone = 
-            clientQueryTimezone || 
-            headersList.get('x-vercel-ip-timezone') || 
-            'Africa/Casablanca'; 
-        
+
+        const clientTimezone =
+            clientQueryTimezone ||
+            headersList.get('x-vercel-ip-timezone') ||
+            'Africa/Casablanca';
+
         // Use the date two days before in the client's timezone
         const twoDaysAgo = new Date();
         twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
@@ -53,25 +52,23 @@ export async function GET(req) {
 
         // Performance Optimization: Run external requests concurrently
         const apiResult = await axios.get(baseUrl, {
-                params: {
-                    "type": "page",
-                    "page": 1,
-                    "pageLimit": 30,
-                    "desiredLanguage": "ar-mena",
-                    "timezone": clientTimezone,
-                    "eventDate": date,
-                    "eventTime": timeInClientZone,
-                    // "sport": "soccer_data",
-                    "comp_id": compId,
-                    "favouriteTeamIds" : "",
-                    "section" : "calendar"
-                },
-                headers: {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ... Safari/537.36"
-                }
-            })
+            params: {
+                "type": "page",
+                "page": 1,
+                // "pageLimit": 30,
+                "desiredLanguage": "ar-mena",
+                "timezone": clientTimezone,
+                "eventDate": date,
+                "eventTime": timeInClientZone,
+                // "sport": "soccer_data",
+                "favouriteTeamIds": "",
+                "section": "calendar"
+            },
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ... Safari/537.36"
+            }
+        })
 
-       
 
         if (apiResult.status !== 200) {
             return NextResponse.json({ message: "Failed to fetch today's results" }, { status: apiResult.status });
@@ -82,39 +79,39 @@ export async function GET(req) {
             return NextResponse.json({ message: "No result array data" }, { status: 404 });
         }
 
-        
-        const cleanData = Object?.entries(data).map(([compId , matches]) => {
+
+        const cleanData = Object?.entries(data).map(([compId, matches]) => {
             const processedMatches = Object?.entries(matches).map(([, match]) => {
                 const homelogo = `https://prod-media.beinsports.com/image/${match.home_team_id}.png`
                 const awaylogo = `https://prod-media.beinsports.com/image/${match.away_team_id}.png`
 
                 return {
-                    competitionName : match.competition_name,
-                    matchId : match.match_id,
-                    matchName : match.match_name,
-                    homeTeamName : match.home_team_name,
-                    awayTeamName : match.away_team_name,
-                    homeTeamFlag : homelogo,
-                    awayTeamFlag : awaylogo,
-                    homeTeamGoals : match.home_team_goals,
-                    awayTeamGoals : match.away_team_goals,
-                    matchDate : match.match_info.match_date,
-                    matchTime : match.match_info.match_time,
-                    matchTtimestamp : match.match_info.match_timestamp,
-                    round : match.match_info.round,
-                    penalties : match.match_info?.aggregate_score?.pen?.home ? true : false,
-                    homePenalties : match.match_info?.aggregate_score?.pen?.home || null,
-                    awayPenalties : match.match_info?.aggregate_score?.pen?.away || null,
-                    extraTime : match.match_info?.aggregate_score?.et?.home ? true : false,
-                    homeExtraTime : match.match_info?.aggregate_score?.et?.home || null,
-                    awayExtraTime : match.match_info?.aggregate_score?.et?.away || null,
-                    matchStatus : match.event_status,
-                    liveTime : match.match_info.live_time  || null,
+                    competitionName: match.competition_name,
+                    matchId: match.match_id,
+                    matchName: match.match_name,
+                    homeTeamName: match.home_team_name,
+                    awayTeamName: match.away_team_name,
+                    homeTeamFlag: homelogo,
+                    awayTeamFlag: awaylogo,
+                    homeTeamGoals: match.home_team_goals,
+                    awayTeamGoals: match.away_team_goals,
+                    matchDate: match.match_info.match_date,
+                    matchTime: match.match_info.match_time,
+                    matchTtimestamp: match.match_info.match_timestamp,
+                    round: match.match_info.round,
+                    penalties: match.match_info?.aggregate_score?.pen?.home ? true : false,
+                    homePenalties: match.match_info?.aggregate_score?.pen?.home || null,
+                    awayPenalties: match.match_info?.aggregate_score?.pen?.away || null,
+                    extraTime: match.match_info?.aggregate_score?.et?.home ? true : false,
+                    homeExtraTime: match.match_info?.aggregate_score?.et?.home || null,
+                    awayExtraTime: match.match_info?.aggregate_score?.et?.away || null,
+                    matchStatus: match.event_status,
+                    liveTime: match.match_info.live_time || null,
                 }
-                
+
             })
 
-            
+
             return { competition_id: compId, matches: processedMatches };
         });
         redis.set(cacheKey, JSON.stringify(cleanData), 'EX', 60 * 60 * 5); // Cache for 24 hours

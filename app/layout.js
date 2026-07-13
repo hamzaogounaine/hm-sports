@@ -2,7 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Naviagation";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,20 +23,57 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased `}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       dir="rtl"
     >
-      <header>
-        {/* <Script src="https://pl30246646.effectivecpmnetwork.com/58/ea/6f/58ea6f4451908c3bf28ca3bc074877a4.js" /> */}
+      <head>
+        {/* Load your ad script correctly inside <head> if required by the provider */}
+        {/* <Script 
+          src="https://pl30246646.effectivecpmnetwork.com/58/ea/6f/58ea6f4451908c3bf28ca3bc074877a4.js" 
+          strategy="afterInteractive"
+        /> */}
+      </head>
+      
+      <body className="min-h-full bg-white text-gray-900 selection:bg-blue-500 selection:text-white pb-16 lg:pb-0">
+  <Analytics />
+  <Navbar />
 
-      </header>
-      <Analytics />
-      <Navbar />
-      <body className="min-h-full text-gray-900 selection:bg-blue-500 selection:text-white">
-        <div dir="rtl" className="min-h-screen text-gray-800 p-4 md:p-8 font-sans max-w-4xl mx-auto">
-          {children}
-          </div>
-          </body>
+  {/* Main Grid System - Works perfectly with dir="rtl" */}
+  <div dir="rtl" className="mx-auto max-w-7xl px-4 py-4 md:py-8 grid grid-cols-1 lg:grid-cols-[160px_1fr_160px] gap-6 items-start">
+    
+    {/* This automatically renders on the RIGHT side in RTL */}
+    <aside className="hidden lg:block sticky top-4 h-[600px]  flex items-center justify-center">
+      {/* <span className="text-xs text-gray-400">إعلان جانبي (يمين)</span> */}
+    </aside>
+
+    {/* Main App Content - Centered */}
+    <main className="w-full max-w-4xl mx-auto">
+      {children}
+    </main>
+
+    {/* This automatically renders on the LEFT side in RTL */}
+    {/* <aside className="hidden lg:block sticky top-4 h-[600px]   flex items-center justify-center">
+      <span className="text-xs text-gray-400"><Script id="ad-options" strategy="afterInteractive">
+              {`atOptions = {
+  key: '2446a21d2ac977df3ec8bf046c7aa0f4',
+  format: 'iframe',
+  height: 600,
+  width: 160,
+  params: {}
+};`}
+            </Script>
+            <Script
+              src="https://www.highperformanceformat.com/2446a21d2ac977df3ec8bf046c7aa0f4/invoke.js"
+              strategy="afterInteractive"
+            /></span>
+    </aside> */}
+  </div>
+
+  {/* Mobile Bottom Sticky Ad Banner */}
+  {/* <div dir="rtl" className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-gray-100 border-t border-gray-300 z-50 flex items-center justify-center shadow-lg">
+    <span className="text-xs text-gray-400">إعلان سفلي</span>
+  </div> */}
+</body>
     </html>
   );
 }

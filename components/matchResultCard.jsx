@@ -31,9 +31,10 @@ export default function MatchResultCard({ match }) {
         {match.matchStatus === "Played" ? (
           <div className="flex flex-col items-center">
             <span className="text-xl font-bold tracking-wider text-gray-900">
-              {match.homeTeamGoals}
-              <span className="mx-2 text-gray-400">-</span>
               {match.awayTeamGoals}
+              <span className="mx-2 text-gray-400">-</span>
+              {match.homeTeamGoals}
+
             </span>
 
             {match.extraTime && (
