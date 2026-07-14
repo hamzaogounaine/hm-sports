@@ -70,9 +70,9 @@ export default function RootLayout({ children }) {
         </div>
 
         {/* Mobile Bottom Sticky Ad Banner */}
-        {/* <div dir="rtl" className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-gray-100 border-t border-gray-300 z-50 flex items-center justify-center shadow-lg">
-    <span className="text-xs text-gray-400">إعلان سفلي</span>
-  </div> */}
+        <div dir="rtl" className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-gray-100 border-t border-gray-300 z-50 flex items-center justify-center shadow-lg">
+          <span className="text-xs text-gray-400">إعلان سفلي</span>
+        </div>
       </body>
     </html>
   );
